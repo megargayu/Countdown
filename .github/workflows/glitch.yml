@@ -43,9 +43,8 @@ jobs:
           cd ..
       
       - name: Add, commit and push
-        if: test -n "$(git status --porcelain)"
         run: |
           cd glitch
           git add web
-          git commit -m "update (commit ${{ github.sha }})"
+          git diff-index --quiet HEAD || git commit -m "update (commit ${{ github.sha }})"
           git push
