@@ -1,0 +1,45 @@
+# Automatically pushes to glitch after every push
+
+name: Push To Glitch
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: npm run build
+      
+      - name: Clone repo
+        run: git clone ${{ secrets.GLITCH_REPO }} glitch
+      
+      - name: Add name and email
+        run: |
+          cd glitch
+          git config user.email "megargayu@gmail.com"
+          git config user.name "megargayu"
+          cd ..
+      
+      - name: Copy & delete build
+        run: |
+          cp -a build/. glitch/web
+          rm -r build
+      
+      - name: Check status
+        run: |
+          cd glitch
+          echo $(git status)
+          cd ..
+      
+      - name: Add, commit and push
+        run: |
+          cd glitch
+          git add web
+          git commit -m "update (commit ${{ github.sha }})"
+          git push
