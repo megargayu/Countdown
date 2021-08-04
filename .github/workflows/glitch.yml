@@ -43,6 +43,7 @@ jobs:
           cd ..
       
       - name: Add, commit and push
+        if: test -n "$(git status --porcelain)"
         run: |
           cd glitch
           git add web
