@@ -16,4 +16,4 @@ This is a countdown app made in React with Material-UI and MomentJS!
 - `/` - The home page, where a simple form resides where you can enter a title for the countdown and a date
 - `/countdown` - The countdown page, which takes two query parameters:
   - `title` - The title of the countdown
-  - `date` - The date & time of the end of the countdown
+  - `date` - The date & time of the end of the countdown, using a Unix Timestamp (in milliseconds). For more information, see https://www.unixtimestamp.com/

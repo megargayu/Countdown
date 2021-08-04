@@ -1,12 +1,12 @@
 import { Button, TextField, Typography } from "@material-ui/core";
 import { styled } from "@material-ui/core/styles";
-import AdapterMoment from "@material-ui/lab/AdapterMoment";
+import AdapterLuxon from "@material-ui/lab/AdapterLuxon";
 import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
 import { useState } from "react";
 import { DateTimePicker } from "@material-ui/lab";
 import { useHistory } from "react-router-dom";
 import { dateIsValid } from "../util/date";
-import moment, { Moment } from "moment";
+import { DateTime } from "luxon";
 
 const Root = styled("div")(() => ({
   display: "flex",
@@ -25,8 +25,8 @@ const FormContainer = styled("div")(({ theme }) => ({
 
 const Home = (): JSX.Element => {
   const [title, setTitle] = useState<string | null>(null);
-  const [date, setDate] = useState<Moment | null>(
-    moment(moment().valueOf() + 86400000) // Tomorrow in milliseconds
+  const [date, setDate] = useState<DateTime | null>(
+    DateTime.now().plus({ days: 1 })
   );
   const history = useHistory();
 
@@ -38,7 +38,7 @@ const Home = (): JSX.Element => {
 
     const params = new URLSearchParams({
       title: title,
-      date: date.toString(),
+      date: date.toMillis().toString(),
     });
     history.push("/countdown?" + params.toString());
   };
@@ -67,7 +67,7 @@ const Home = (): JSX.Element => {
               sx={{ marginBottom: 3 }}
               fullWidth
             />
-            <LocalizationProvider dateAdapter={AdapterMoment}>
+            <LocalizationProvider dateAdapter={AdapterLuxon}>
               <DateTimePicker
                 renderInput={(props) => (
                   <TextField

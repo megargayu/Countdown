@@ -1,12 +1,12 @@
 import { Box } from "@material-ui/core";
-import { Moment } from "moment";
+import { DateTime } from "luxon";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import toState from "../util/toState";
 import UnitDisplay, { Colon } from "./UnitDisplayComponent";
 
-const CountdownComponent = ({ toDate }: { toDate: Moment }): JSX.Element => {
+const CountdownComponent = ({ toDate }: { toDate: DateTime }): JSX.Element => {
   const [state, setState] = useState(toState(toDate));
 
   useEffect(() => {

@@ -1,10 +1,10 @@
-import moment, { Moment } from "moment";
+import { DateTime } from "luxon";
 import extractUnits from "./extractUnits";
 
 const Units = ["Week(s)", "Day(s)", "Hour(s)", "Minute(s)", "Second(s)"];
 
-const toState = (date: Moment): [string, string][] => {
-  const units = extractUnits(date.valueOf() - moment().valueOf());
+const toState = (date: DateTime): [string, string][] => {
+  const units = extractUnits(date.toMillis() - DateTime.now().toMillis());
 
   return units.map((item, index) => {
     return [Units[index], item.toString().padStart(2, "0")];

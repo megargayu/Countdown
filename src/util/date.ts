@@ -1,15 +1,16 @@
-import moment, { Moment } from "moment";
+import { DateTime } from "luxon";
 
-export const dateIsValid = (date: Moment): boolean => {
-  return !isNaN(date.valueOf()) && date.valueOf() >= moment().valueOf();
+export const dateIsValid = (date: DateTime): boolean => {
+  return date.isValid && date.toMillis() >= DateTime.now().toMillis();
 };
 
-export const parseRawDate = (rawDate: string | null): Moment | null => {
-  let newRawDate: string | number | null = rawDate;
-
-  if (rawDate !== null && !isNaN(parseInt(rawDate))) {
-    newRawDate = parseInt(rawDate);
+export const parseRawDate = (rawDate: string | null): DateTime | null => {
+  if (rawDate === null || isNaN(Number(rawDate))) {
+    return null;
   }
 
-  return newRawDate === null ? null : moment(newRawDate);
+  const newRawDate = Number(rawDate);
+
+  const converted = DateTime.fromMillis(newRawDate);
+  return converted.isValid ? converted : null;
 };

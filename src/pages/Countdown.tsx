@@ -1,8 +1,9 @@
 import { Button, Typography } from "@material-ui/core";
 import { styled } from "@material-ui/core/styles";
+import { DateTime } from "luxon";
 import { useLocation } from "react-router";
 import CountdownComponent from "../components/CountdownComponent";
-import { dateIsValid, parseRawDate } from "../util/date";
+import { parseRawDate } from "../util/date";
 
 const Root = styled("div")(() => ({
   display: "flex",
@@ -13,17 +14,42 @@ const Root = styled("div")(() => ({
   height: "100%",
 }));
 
+const checkInput = (
+  title: string | null,
+  date: DateTime | null
+): string | null => {
+  if (title === null) {
+    return "No title was given!";
+  }
+
+  if (date === null) {
+    return "No date was given!";
+  }
+
+  if (!date.isValid) {
+    return "Date provided is not valid.";
+  }
+
+  if (date.toMillis() < DateTime.now().toMillis()) {
+    return "The date provided has already passed!";
+  }
+
+  return null;
+};
+
 const Countdown = (): JSX.Element => {
   const query = new URLSearchParams(useLocation().search);
 
   const title = query.get("title");
   const date = parseRawDate(query.get("date"));
 
+  const error = checkInput(title, date);
+
   return (
     <Root>
-      {title === null || date === null || !dateIsValid(date) ? (
+      {title === null || date === null || error !== null ? (
         <Typography variant="h1" sx={{ textAlign: "center" }}>
-          Valid title and/or date were not given.
+          {error}
         </Typography>
       ) : (
         <>
