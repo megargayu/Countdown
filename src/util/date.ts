@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 
 export const dateIsValid = (date: DateTime): boolean => {
-  return date.isValid && date.toMillis() >= DateTime.now().toMillis();
+  return date.isValid && date.toSeconds() >= DateTime.now().toSeconds();
 };
 
 export const parseRawDate = (rawDate: string | null): DateTime | null => {

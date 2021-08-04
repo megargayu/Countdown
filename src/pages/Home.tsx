@@ -38,7 +38,7 @@ const Home = (): JSX.Element => {
 
     const params = new URLSearchParams({
       title: title,
-      date: date.toMillis().toString(),
+      date: date.toSeconds().toString(),
     });
     history.push("/countdown?" + params.toString());
   };
