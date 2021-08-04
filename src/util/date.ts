@@ -11,6 +11,6 @@ export const parseRawDate = (rawDate: string | null): DateTime | null => {
 
   const newRawDate = Number(rawDate);
 
-  const converted = DateTime.fromMillis(newRawDate);
+  const converted = DateTime.fromSeconds(newRawDate);
   return converted.isValid ? converted : null;
 };

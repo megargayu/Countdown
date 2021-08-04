@@ -30,6 +30,8 @@ const checkInput = (
     return "Date provided is not valid.";
   }
 
+  console.log(date);
+
   if (date.toSeconds() < DateTime.now().toSeconds()) {
     return "The date provided has already passed!";
   }
