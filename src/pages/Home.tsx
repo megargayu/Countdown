@@ -1,4 +1,11 @@
-import { Button, TextField, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import { styled } from "@material-ui/core/styles";
 import AdapterLuxon from "@material-ui/lab/AdapterLuxon";
 import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
@@ -7,6 +14,7 @@ import { DateTimePicker } from "@material-ui/lab";
 import { useHistory } from "react-router-dom";
 import { dateIsValid } from "../util/date";
 import { DateTime } from "luxon";
+import { useRef } from "react";
 
 const Root = styled("div")(() => ({
   display: "flex",
@@ -28,6 +36,7 @@ const Home = (): JSX.Element => {
   const [date, setDate] = useState<DateTime | null>(
     DateTime.now().plus({ days: 1 })
   );
+  const showHomeButtonCheck = useRef<HTMLInputElement>(null);
   const history = useHistory();
 
   const onSubmit = (event: React.FormEvent) => {
@@ -39,6 +48,9 @@ const Home = (): JSX.Element => {
     const params = new URLSearchParams({
       title: title,
       date: date.toSeconds().toString(),
+      showHomeButton: (
+        showHomeButtonCheck?.current?.checked ?? true
+      ).toString(),
     });
     history.push("/countdown?" + params.toString());
   };
@@ -67,6 +79,7 @@ const Home = (): JSX.Element => {
               sx={{ marginBottom: 3 }}
               fullWidth
             />
+
             <LocalizationProvider dateAdapter={AdapterLuxon}>
               <DateTimePicker
                 renderInput={(props) => (
@@ -88,6 +101,16 @@ const Home = (): JSX.Element => {
                 onChange={setDate}
               />
             </LocalizationProvider>
+
+            <Box sx={{ width: "100%", marginBottom: 3 }}>
+              <FormControlLabel
+                control={
+                  <Checkbox inputRef={showHomeButtonCheck} defaultChecked />
+                }
+                label="Show home button"
+              />
+            </Box>
+
             <Button
               disabled={
                 title === "" ||

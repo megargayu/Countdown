@@ -42,6 +42,8 @@ const Countdown = (): JSX.Element => {
 
   const title = query.get("title");
   const date = parseRawDate(query.get("date"));
+  const showHomeButton =
+    query.get("showHomeButton")?.toLowerCase() !== "false" ?? true;
 
   const error = checkInput(title, date);
 
@@ -60,9 +62,11 @@ const Countdown = (): JSX.Element => {
         </>
       )}
       <br />
-      <Button variant="contained" size="large" href={"/"}>
-        Go home
-      </Button>
+      {showHomeButton && (
+        <Button variant="contained" size="large" href={"/"}>
+          Go home
+        </Button>
+      )}
     </Root>
   );
 };
